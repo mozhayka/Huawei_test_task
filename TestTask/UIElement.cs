@@ -8,38 +8,40 @@ namespace TestTask
 {
     internal class UIElement
     {
-        private readonly List<UIElement> subelements;
-        public Point LeftTopPoint { get; set; }
-        public Point RightBotPoint { get; set; }
+        private readonly List<UIElement> Subelements;
+        public Point LeftTopPoint { get; private set; }
+        public Point RightBotPoint { get; private set; }
+        public int Id { get; private set; }
 
-        public UIElement(Point leftTopPoint, Point rightBotPoint)
+        public UIElement(Point leftTopPoint, Point rightBotPoint, int id)
         {
             LeftTopPoint = leftTopPoint;
             RightBotPoint = rightBotPoint;
-            subelements = new List<UIElement>();
+            Id = id;
+            Subelements = new List<UIElement>();
         }
 
-        public UIElement(Point leftTopPoint, double width, double height)
-            : this(leftTopPoint, new Point { X = leftTopPoint.X + width, Y = leftTopPoint.Y - height })
+        public UIElement(Point leftTopPoint, double width, double height, int id)
+            : this(leftTopPoint, new Point { X = leftTopPoint.X + width, Y = leftTopPoint.Y - height }, id)
         { }
         
-        public UIElement(double leftTopPointX, double leftTopPointY, double width, double height)
-            : this(new Point { X = leftTopPointX, Y = leftTopPointY }, width, height)
+        public UIElement(double leftTopPointX, double leftTopPointY, double width, double height, int id)
+            : this(new Point { X = leftTopPointX, Y = leftTopPointY }, width, height, id)
         { }
 
         public void AddSubelement(UIElement sub)
         {
-            subelements.Add(sub);
+            Subelements.Add(sub);
         }
 
         public void RemoveSubelement(int place)
         {
-            subelements.RemoveAt(place);
+            Subelements.RemoveAt(place);
         }
 
         public List<UIElement> GetSubelements()
         {
-            return subelements;
+            return Subelements;
         }
 
         public Visibility_X IsVisibleByX(double leftPoint, double rightPoint)
