@@ -10,13 +10,13 @@ namespace Tests
 {
     internal class TestRunner
     {
-        public static async Task<bool> TestOnInputFile(string path, VisibilityResult rightAnswer)
+        public static async Task TestOnInputFile(string path, VisibilityResult rightAnswer)
         {
             UIMonitor monitor = new();
             monitor.LoadInputFile(path);
             IVisibilityTester vt = new OptimizedVisibilityTester(monitor);
             var ans = await vt.TestVisibilityAsync();
-            return VisibilityTestAnswers.CompareAnswers(ans, rightAnswer);
+            VisibilityTestAnswers.CompareAnswers(ans, rightAnswer);
         }
     }
 }

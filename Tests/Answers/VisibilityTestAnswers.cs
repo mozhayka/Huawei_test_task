@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,11 @@ namespace Tests.Answers
             InvisibleIds = new List<int>() { 0 },
         };
 
-        public static bool CompareAnswers(VisibilityResult calculated, VisibilityResult correct)
+        public static void CompareAnswers(VisibilityResult calculated, VisibilityResult correct)
         {
-            bool IsVisibleTheSame = Enumerable.SequenceEqual(calculated.VisibleIds, correct.VisibleIds);
-            bool IsPartialTheSame = Enumerable.SequenceEqual(calculated.PartiallyIds, correct.PartiallyIds);
-            bool IsInvisibleTheSame = Enumerable.SequenceEqual(calculated.InvisibleIds,correct.InvisibleIds);
-            return IsVisibleTheSame && IsPartialTheSame && IsInvisibleTheSame;
+            CollectionAssert.AreEqual(calculated.VisibleIds, correct.VisibleIds);
+            CollectionAssert.AreEqual(calculated.PartiallyIds, correct.PartiallyIds);
+            CollectionAssert.AreEqual(calculated.InvisibleIds,correct.InvisibleIds);
         }
     }
 }

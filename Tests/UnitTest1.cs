@@ -16,16 +16,24 @@ namespace Tests
         public async Task Test1()
         {
             string name = "TextFile1.txt";
-            var ans = await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer);
-            Assert.That(ans, Is.True);
+            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer);
         }
 
         [Test]
         public async Task Test2()
         {
             string name = "TextFile2.txt";
-            var ans = await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer);
-            Assert.That(ans, Is.True);
+            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer);
+        }
+
+        [Test]
+        public async Task TestLarge()
+        {
+            string name = "Large.txt";
+            if (!File.Exists(path + name))
+                InputFileGenerator.GenerateLargeFile(path, name);
+
+            await TestRunner.TestOnInputFile(path + name, InputFileGenerator.RightAnswer());
         }
     }
 }
