@@ -4,24 +4,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace VisibilityChecker
 {
     public class UIMonitor
     {
-        public List<UIElement> ParentElements { get; }
-        public List<UIElement> AllElements { get; }
+        public List<UIElement> ParentElements { get; } = new();
+        public List<UIElement> AllElements { get; } = new();
         public Viewport Window { get; private set; }
 
-        public UIMonitor(string path)
+        public UIMonitor()
         {
-            ParentElements = new();
-            AllElements = new();
-            ReadInitFile(path);
+            // ParentElements = new();
+            // AllElements = new();
+            // ReadInitFile(path);
         }
 
-        private void ReadInitFile(string path)
+        public void LoadInputFile(string path)
         {
             string[] lines = File.ReadAllLines(path);
             int id = 0;

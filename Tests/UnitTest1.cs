@@ -1,21 +1,31 @@
+using System.Globalization;
+using Tests.Answers;
 using VisibilityChecker;
 
 namespace Tests
 {
     public class Tests
     {
+        const string path = "..\\..\\..\\..\\Tests\\TestInput\\";
         [SetUp]
         public void Setup()
         {
         }
 
         [Test]
-        public void Test1()
+        public async Task Test1()
         {
-            UIMonitor monitor = new("..\\..\\..\\..\\Tests\\TestInput\\TextFile1.txt");
-            IVisibilityTester vt = new OptimizedVisibilityTester(monitor);
-            var ans = vt.VisibilityTest();
-            Assert.Pass();
+            string name = "TextFile1.txt";
+            var ans = await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer);
+            Assert.That(ans, Is.True);
+        }
+
+        [Test]
+        public async Task Test2()
+        {
+            string name = "TextFile2.txt";
+            var ans = await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer);
+            Assert.That(ans, Is.True);
         }
     }
 }

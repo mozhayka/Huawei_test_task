@@ -8,15 +8,15 @@ namespace VisibilityChecker
 {
     public class VisibilityResult
     {
-        public List<int> VisibleIds { get; set; }
-        public List<int> PartiallyIds { get; set; }
-        public List<int> InvisibleIds { get; set; }
+        public List<int> VisibleIds { get; set; } = new();
+        public List<int> PartiallyIds { get; set; } = new();
+        public List<int> InvisibleIds { get; set; } = new();
 
         public VisibilityResult()
         {
-            VisibleIds = new();
-            PartiallyIds = new();
-            InvisibleIds = new();
+            //VisibleIds = new();
+            //PartiallyIds = new();
+            //InvisibleIds = new();
         }
 
         internal void Clear()

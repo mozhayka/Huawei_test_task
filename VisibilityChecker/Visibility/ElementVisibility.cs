@@ -10,11 +10,7 @@ namespace VisibilityChecker
     {
         public static Visibility_X IsVisibleByX(UIElement elem, Viewport window)
         {
-            var segment1_l = window.LeftBotPoint.X;
-            var segment1_r = window.RightTopPoint.X;
-            var segment2_l = elem.LeftBotPoint.X;
-            var segment2_r = elem.RightTopPoint.X;
-            var intersectoin = Intersection.SegmentsIntersect(segment1_l, segment1_r, segment2_l, segment2_r);
+            var intersectoin = Intersection.SegmentsIntersect(window.Left, window.Right, elem.Left, elem.Right);
             return intersectoin switch
             {
                 Intersect.Inside => Visibility_X.Visible,
@@ -26,11 +22,7 @@ namespace VisibilityChecker
 
         public static Visibility_Y IsVisibleByY(UIElement elem, Viewport window)
         {
-            var segment1_l = window.LeftBotPoint.Y;
-            var segment1_r = window.RightTopPoint.Y;
-            var segment2_l = elem.LeftBotPoint.Y;
-            var segment2_r = elem.RightTopPoint.Y;
-            var intersectoin = Intersection.SegmentsIntersect(segment1_l, segment1_r, segment2_l, segment2_r);
+            var intersectoin = Intersection.SegmentsIntersect(window.Bottom, window.Top, elem.Bottom, elem.Top);
             return intersectoin switch
             {
                 Intersect.Inside => Visibility_Y.Visible,

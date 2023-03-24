@@ -17,7 +17,8 @@ namespace ConsoleVisibilityChecker
                 path = "..\\..\\..\\..\\Input\\TestInput1.txt";
 
             Console.WriteLine("Reading input file ...");
-            UIMonitor monitor = new(path);
+            UIMonitor monitor = new();
+            monitor.LoadInputFile(path);
             ConsolePrinter.PrintMonitorElements(monitor);
             IVisibilityTester vt = new OptimizedVisibilityTester(monitor); // new SimpleVisibilityTester(monitor);
 
