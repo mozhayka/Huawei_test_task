@@ -10,9 +10,9 @@ namespace VisibilityChecker
     {
         private readonly UIMonitor Monitor;
         private readonly VisibilityResult CurrentAnswer;
-        private readonly List<Visibility_X> CurrentVisibilityByX;
-        private readonly List<Visibility_Y> CurrentVisibilityByY;
-        private readonly List<Visibility_> CurrentMergetVisibility;
+        private readonly Visibility_X[] CurrentVisibilityByX;
+        private readonly Visibility_Y[] CurrentVisibilityByY;
+        private readonly Visibility_[] CurrentMergedVisibility;
         private bool UpdatedSinceLastCalculationByX, UpdatedSinceLastCalculationByY;
 
         public OptimizedVisibilityTester(UIMonitor monitor)
@@ -20,9 +20,9 @@ namespace VisibilityChecker
             Monitor = monitor;
             CurrentAnswer = new VisibilityResult();
             int length = Monitor.AllElements.Count;
-            CurrentVisibilityByX = new(Enumerable.Repeat(Visibility_X.Partially, length).ToArray());
-            CurrentVisibilityByY = new(Enumerable.Repeat(Visibility_Y.Partially, length).ToArray());
-            CurrentMergetVisibility = new(Enumerable.Repeat(Visibility_.Partially, length).ToArray());
+            CurrentVisibilityByX = new Visibility_X[length];
+            CurrentVisibilityByY = new Visibility_Y[length];
+            CurrentMergedVisibility = new Visibility_[length];
             UpdatedSinceLastCalculationByX = true;
             UpdatedSinceLastCalculationByY = true;
         }
@@ -45,8 +45,7 @@ namespace VisibilityChecker
                 return CurrentAnswer;
             CurrentAnswer.Clear();
 
-            var taskX = Task.Run(() =>
-            {
+            var taskX = Task.Run(() => {
                 if (UpdatedSinceLastCalculationByX)
                 {
                     RecalculateVisibilityByX();
@@ -72,34 +71,28 @@ namespace VisibilityChecker
 
         private void RecalculateVisibilityByX()
         {
-            // var tasks = new List<Task>();
-            foreach (var elem in Monitor.ParentElements)
-            {
-                // tasks.Add(new Task(() => RecurentVisibilityByX(elem)));
-                RecurentVisibilityByX(elem);
-            }
-            // tasks.ForEach(x => x.Wait());
+            ParallelLoopResult result = Parallel.ForEach(
+                   Monitor.RootElements,
+                   elem => RecurentVisibilityByX(elem)
+            );
         }
 
         private void RecurentVisibilityByX(UIElement elem)
         {
-            // var tasks = new List<Task>();
             var visibility = ElementVisibility.IsVisibleByX(elem, Monitor.Window);
             CurrentVisibilityByX[elem.Id] = visibility;
             if (visibility == Visibility_X.Partially)
             {
-                foreach (var element in elem.GetSubelements())
-                {
-                    // tasks.Add(new Task(() => RecurentVisibilityByX(element)));
-                    RecurentVisibilityByX(element);
-                }
+                ParallelLoopResult result = Parallel.ForEach(
+                   elem.Subelements,
+                   elem => RecurentVisibilityByX(elem)
+                );
             }
-            // tasks.ForEach(x => x.Wait());
         }
 
         private void RecalculateVisibilityByY()
         {
-            foreach (var elem in Monitor.ParentElements)
+            foreach (var elem in Monitor.RootElements)
             {
                 RecurentVisibilityByY(elem);
             }
@@ -120,7 +113,7 @@ namespace VisibilityChecker
 
         private void MergeVisibility()
         {
-            foreach (var elem in Monitor.ParentElements)
+            foreach (var elem in Monitor.RootElements)
             {
                 RecurentVisibilityMerge(elem);
             }
@@ -131,7 +124,7 @@ namespace VisibilityChecker
             var visibility_x = CurrentVisibilityByX[elem.Id];
             var visibility_y = CurrentVisibilityByY[elem.Id];
             var visibility = VisibilityMerger.MergeVisibility(visibility_x, visibility_y);
-            CurrentMergetVisibility[elem.Id] = visibility;
+            CurrentMergedVisibility[elem.Id] = visibility;
             CurrentAnswer.Add(elem.Id, visibility);
 
             if (visibility == Visibility_.Partially)

@@ -9,7 +9,7 @@ namespace VisibilityChecker
 {
     public class UIElement
     {
-        private readonly List<UIElement> Subelements = new();
+        public List<UIElement> Subelements { get; private set; } = new();
         public double Left, Right, Top, Bottom;
         public int Id { get; private set; }
         
@@ -26,7 +26,7 @@ namespace VisibilityChecker
         {
             if (!IsInside(sub))
             {
-                throw new InvalidOperationException("subelements is not inside parent");
+                throw new InvalidOperationException("subelement is not inside parent");
             }
             Subelements.Add(sub);
         }

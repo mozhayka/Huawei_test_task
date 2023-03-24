@@ -9,7 +9,7 @@ namespace VisibilityChecker
 {
     public class UIMonitor
     {
-        public List<UIElement> ParentElements { get; } = new();
+        public List<UIElement> RootElements { get; } = new();
         public List<UIElement> AllElements { get; } = new();
         public Viewport Window { get; private set; }
 
@@ -38,7 +38,7 @@ namespace VisibilityChecker
             AllElements.Add(elem);
             if (fatherUIElement == -1)
             {
-                ParentElements.Add(elem);
+                RootElements.Add(elem);
             }
             else
             {

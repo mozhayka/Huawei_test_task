@@ -30,7 +30,7 @@ namespace VisibilityChecker
         public Task<VisibilityResult> TestVisibilityAsync()
         {
             CurrentAnswer.Clear();
-            foreach (var elem in Monitor.ParentElements)
+            foreach (var elem in Monitor.RootElements)
             {
                 RecurentVisibilityTest(elem);
             }
