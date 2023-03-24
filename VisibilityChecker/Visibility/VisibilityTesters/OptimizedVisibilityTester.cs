@@ -9,10 +9,10 @@ namespace VisibilityChecker
     public class OptimizedVisibilityTester : IVisibilityTester
     {
         private readonly UIMonitor Monitor;
-        private VisibilityTestShortAnswer CurrentAnswer;
-        private List<Visibility_X> CurrentVisibilityByX;
-        private List<Visibility_Y> CurrentVisibilityByY;
-        private List<Visibility_> CurrentMergetVisibility;
+        private readonly VisibilityTestShortAnswer CurrentAnswer;
+        private readonly List<Visibility_X> CurrentVisibilityByX;
+        private readonly List<Visibility_Y> CurrentVisibilityByY;
+        private readonly List<Visibility_> CurrentMergetVisibility;
         private bool UpdatedSinceLastCalculationByX, UpdatedSinceLastCalculationByY;
 
         public OptimizedVisibilityTester(UIMonitor monitor)
@@ -39,23 +39,32 @@ namespace VisibilityChecker
             Monitor.ScrollVertically(distanceToTheBot);
         }
 
-        public VisibilityTestShortAnswer VisibilityTest()
+        public async Task<VisibilityTestShortAnswer> VisibilityTestAsync()
         {
             if (!UpdatedSinceLastCalculationByX && !UpdatedSinceLastCalculationByY)
                 return CurrentAnswer;
             CurrentAnswer.Clear();
 
-            if (UpdatedSinceLastCalculationByX)
+            var taskX = Task.Run(() =>
             {
-                RecalculateVisibilityByX();
-                UpdatedSinceLastCalculationByX = false;
-            }
+                if (UpdatedSinceLastCalculationByX)
+                {
+                    RecalculateVisibilityByX();
+                    UpdatedSinceLastCalculationByX = false;
+                }
+            });
 
-            if (UpdatedSinceLastCalculationByY)
+            var taskY = Task.Run(() =>
             {
-                RecalculateVisibilityByY();
-                UpdatedSinceLastCalculationByY = false;
-            }
+                if (UpdatedSinceLastCalculationByY)
+                {
+                    RecalculateVisibilityByY();
+                    UpdatedSinceLastCalculationByY = false;
+                }
+            });
+
+            await Task.WhenAll(taskX, taskY);
+
             MergeVisibility();
 
             return CurrentAnswer;
@@ -63,23 +72,29 @@ namespace VisibilityChecker
 
         private void RecalculateVisibilityByX()
         {
+            // var tasks = new List<Task>();
             foreach (var elem in Monitor.ParentElements)
             {
+                // tasks.Add(new Task(() => RecurentVisibilityByX(elem)));
                 RecurentVisibilityByX(elem);
             }
+            // tasks.ForEach(x => x.Wait());
         }
 
         private void RecurentVisibilityByX(UIElement elem)
         {
+            // var tasks = new List<Task>();
             var visibility = ElementVisibility.IsVisibleByX(elem, Monitor.Window);
             CurrentVisibilityByX[elem.Id] = visibility;
             if (visibility == Visibility_X.Partially)
             {
                 foreach (var element in elem.GetSubelements())
                 {
+                    // tasks.Add(new Task(() => RecurentVisibilityByX(element)));
                     RecurentVisibilityByX(element);
                 }
             }
+            // tasks.ForEach(x => x.Wait());
         }
 
         private void RecalculateVisibilityByY()

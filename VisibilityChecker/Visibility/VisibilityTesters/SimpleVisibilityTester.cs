@@ -27,14 +27,14 @@ namespace VisibilityChecker
             Monitor.ScrollVertically(distanceToTheBot);
         }
 
-        public VisibilityTestShortAnswer VisibilityTest()
+        public Task<VisibilityTestShortAnswer> VisibilityTestAsync()
         {
             CurrentAnswer.Clear();
             foreach (var elem in Monitor.ParentElements)
             {
                 RecurentVisibilityTest(elem);
             }
-            return CurrentAnswer;
+            return Task.FromResult(CurrentAnswer);
         }
 
         private void RecurentVisibilityTest(UIElement elem)

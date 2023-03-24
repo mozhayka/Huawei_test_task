@@ -8,7 +8,7 @@ namespace VisibilityChecker
 {
     public interface IVisibilityTester
     {
-        public VisibilityTestShortAnswer VisibilityTest();
+        public Task<VisibilityTestShortAnswer> VisibilityTestAsync();
         public void ScrollHorizontally(double distanceToTheRight);
         public void ScrollVertically(double distanceToTheBot);
     }
