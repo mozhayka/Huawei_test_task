@@ -10,20 +10,34 @@ namespace VisibilityChecker
     {
         public static Visibility_X IsVisibleByX(UIElement elem, Viewport window)
         {
-            if (elem.RightTopPoint.X < window.LeftBotPoint.X || window.RightTopPoint.X < elem.LeftBotPoint.X)
-                return Visibility_X.Invisible;
-            if (window.LeftBotPoint.X <= elem.RightTopPoint.X && elem.LeftBotPoint.X <= window.RightTopPoint.X)
-                return Visibility_X.Visible;
-            return Visibility_X.Partially;
+            var segment1_l = window.LeftBotPoint.X;
+            var segment1_r = window.RightTopPoint.X;
+            var segment2_l = elem.LeftBotPoint.X;
+            var segment2_r = elem.RightTopPoint.X;
+            var intersectoin = Intersection.SegmentsIntersect(segment1_l, segment1_r, segment2_l, segment2_r);
+            return intersectoin switch
+            {
+                Intersect.Inside => Visibility_X.Visible,
+                Intersect.Outside => Visibility_X.Invisible,
+                Intersect.Intersect => Visibility_X.Partially,
+                _ => throw new NotImplementedException("Unknown intersection"),
+            };
         }
 
         public static Visibility_Y IsVisibleByY(UIElement elem, Viewport window)
         {
-            if (elem.RightTopPoint.Y < window.LeftBotPoint.Y || window.RightTopPoint.Y < elem.LeftBotPoint.Y)
-                return Visibility_Y.Invisible;
-            if (window.LeftBotPoint.Y <= elem.RightTopPoint.Y && elem.LeftBotPoint.Y <= window.RightTopPoint.Y)
-                return Visibility_Y.Visible;
-            return Visibility_Y.Partially;
+            var segment1_l = window.LeftBotPoint.Y;
+            var segment1_r = window.RightTopPoint.Y;
+            var segment2_l = elem.LeftBotPoint.Y;
+            var segment2_r = elem.RightTopPoint.Y;
+            var intersectoin = Intersection.SegmentsIntersect(segment1_l, segment1_r, segment2_l, segment2_r);
+            return intersectoin switch
+            {
+                Intersect.Inside => Visibility_Y.Visible,
+                Intersect.Outside => Visibility_Y.Invisible,
+                Intersect.Intersect => Visibility_Y.Partially,
+                _ => throw new NotImplementedException("Unknown intersection"),
+            };
         }
 
         public static Visibility_ IsVisible(UIElement elem, Viewport window)

@@ -65,5 +65,19 @@ namespace ConsoleVisibilityChecker
         {
             Console.WriteLine(monitor.ToString());
         }
+
+        public static void PrintHelp()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("Implemented commands:");
+            sb.AppendLine("v - visibility");
+            sb.AppendLine("fv - full visibility");
+            sb.AppendLine("hor x - scroll horizontally by x to the right");
+            sb.AppendLine("ver x - scroll vertically by x to the top");
+            sb.AppendLine("h - help");
+            sb.AppendLine("e - exit");
+
+            Console.WriteLine(sb.ToString());
+        }
     }
 }

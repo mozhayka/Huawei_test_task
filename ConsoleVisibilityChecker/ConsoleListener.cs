@@ -21,9 +21,7 @@ namespace ConsoleVisibilityChecker
             ConsolePrinter.PrintMonitorElements(monitor);
             IVisibilityTester vt = new SimpleVisibilityTester(monitor);
 
-            Console.WriteLine("Print commands (implemented commands: " +
-                "visibility (v) / full visibility (fv) / " +
-                "scroll horizontally x (hor x) / scroll vertically x (ver x) / exit (e))");
+            Console.WriteLine("Print commands");
             while (true)
             {
                 if (!CommandParser(monitor, vt))
@@ -52,8 +50,14 @@ namespace ConsoleVisibilityChecker
                 case "ver":
                     vt.ScrollVertically(double.Parse(args[1]));
                     break;
+                case "m":
+                    ConsolePrinter.PrintMonitorElements(monitor);
+                    break;
+                case "help":
+                    ConsolePrinter.PrintHelp();
+                    break;
                 default:
-                    Console.WriteLine("Unknown command");
+                    Console.WriteLine("Unknown command, write help to see implemented commands");
                     break;
             }
             return true;
