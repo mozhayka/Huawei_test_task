@@ -8,38 +8,38 @@ namespace VisibilityChecker
 {
     public class Viewport
     {
-        public Point LeftTopPoint { get; private set; }
-        public Point RightBotPoint { get; private set; }
+        public Point LeftBotPoint { get; private set; }
+        public Point RightTopPoint { get; private set; }
 
-        public Viewport(Point leftTopPoint, Point rightBotPoint)
+        public Viewport(Point leftBotPoint, Point rightTopPoint)
         {
-            LeftTopPoint = leftTopPoint;
-            RightBotPoint = rightBotPoint;
+            LeftBotPoint = leftBotPoint;
+            RightTopPoint = rightTopPoint;
         }
 
-        public Viewport(Point leftTopPoint, double width, double height)
-            : this(leftTopPoint, new Point { X = leftTopPoint.X + width, Y = leftTopPoint.Y - height })
+        public Viewport(Point leftBotPoint, double width, double height)
+            : this(leftBotPoint, new Point { X = leftBotPoint.X + width, Y = leftBotPoint.Y + height })
         { }
 
-        public Viewport(double leftTopPointX, double leftTopPointY, double width, double height)
-            : this(new Point { X = leftTopPointX, Y = leftTopPointY }, width, height)
+        public Viewport(double leftBotPointX, double leftBotPointY, double width, double height)
+            : this(new Point { X = leftBotPointX, Y = leftBotPointY }, width, height)
         { }
 
         public void ScrollHorizontally(double distanceToTheRight)
         {
-            LeftTopPoint.X += distanceToTheRight;
-            RightBotPoint.X += distanceToTheRight;
+            LeftBotPoint.X += distanceToTheRight;
+            RightTopPoint.X += distanceToTheRight;
         }
 
         public void ScrollVertically(double distanceToTheBot)
         {
-            LeftTopPoint.Y -= distanceToTheBot;
-            RightBotPoint.Y -= distanceToTheBot;
+            LeftBotPoint.Y += distanceToTheBot;
+            RightTopPoint.Y += distanceToTheBot;
         }
 
         public override string ToString()
         {
-            StringBuilder sb = new($"Viewport [{LeftTopPoint}, {RightBotPoint}]");
+            StringBuilder sb = new($"Viewport [{LeftBotPoint}, {RightTopPoint}]");
             return sb.ToString();
         }
     }

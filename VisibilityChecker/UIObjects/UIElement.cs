@@ -10,24 +10,24 @@ namespace VisibilityChecker
     public class UIElement
     {
         private readonly List<UIElement> Subelements;
-        public Point LeftTopPoint { get; private set; }
-        public Point RightBotPoint { get; private set; }
+        public Point LeftBotPoint { get; private set; }
+        public Point RightTopPoint { get; private set; }
         public int Id { get; private set; }
 
-        public UIElement(Point leftTopPoint, Point rightBotPoint, int id)
+        public UIElement(Point leftBotPoint, Point rightTopPoint, int id)
         {
-            LeftTopPoint = leftTopPoint;
-            RightBotPoint = rightBotPoint;
+            LeftBotPoint = leftBotPoint;
+            RightTopPoint = rightTopPoint;
             Id = id;
             Subelements = new List<UIElement>();
         }
 
-        public UIElement(Point leftTopPoint, double width, double height, int id)
-            : this(leftTopPoint, new Point { X = leftTopPoint.X + width, Y = leftTopPoint.Y - height }, id)
+        public UIElement(Point leftBotPoint, double width, double height, int id)
+            : this(leftBotPoint, new Point { X = leftBotPoint.X + width, Y = leftBotPoint.Y + height }, id)
         { }
         
-        public UIElement(double leftTopPointX, double leftTopPointY, double width, double height, int id)
-            : this(new Point { X = leftTopPointX, Y = leftTopPointY }, width, height, id)
+        public UIElement(double leftBotPointX, double leftBotPointY, double width, double height, int id)
+            : this(new Point { X = leftBotPointX, Y = leftBotPointY }, width, height, id)
         { }
 
         public void AddSubelement(UIElement sub)
@@ -50,7 +50,7 @@ namespace VisibilityChecker
         }
         public override string ToString()
         {
-            StringBuilder sb = new($"[{LeftTopPoint}, {RightBotPoint}] id {Id}, subelements ");
+            StringBuilder sb = new($"[{LeftBotPoint}, {RightTopPoint}] id {Id}, subelements ");
             Subelements.ForEach(p => sb.Append($"{p.Id} "));
             return sb.ToString();
         }
@@ -62,7 +62,7 @@ namespace VisibilityChecker
 
         public static bool IsInside(UIElement parent, UIElement sub)
         {
-            return parent.LeftTopPoint >= sub.LeftTopPoint && sub.RightBotPoint >= parent.RightBotPoint;
+            return parent.LeftBotPoint <= sub.LeftBotPoint && sub.RightTopPoint <= parent.RightTopPoint;
         }
     }
 }

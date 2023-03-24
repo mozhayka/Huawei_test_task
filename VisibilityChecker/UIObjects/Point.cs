@@ -17,14 +17,14 @@ namespace VisibilityChecker
             return $"Point ({X}, {Y})";
         }
 
-        public static bool operator >=(Point LeftTop, Point RightBot)
+        public static bool operator >=(Point RightTop, Point LeftBot)
         {
-            return LeftTop.X <= RightBot.X && LeftTop.Y >= RightBot.Y;
+            return RightTop.X >= LeftBot.X && RightTop.Y >= LeftBot.Y;
         }
 
-        public static bool operator <=(Point RightBot, Point LeftTop)
+        public static bool operator <=(Point LeftBot, Point RightTop)
         {
-            return LeftTop.X <= RightBot.X && LeftTop.Y >= RightBot.Y;
+            return LeftBot.X <= RightTop.X && LeftBot.Y <= RightTop.Y;
         }
     }
 }

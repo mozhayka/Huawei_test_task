@@ -10,18 +10,18 @@ namespace VisibilityChecker
     {
         public static Visibility_X IsVisibleByX(UIElement elem, Viewport window)
         {
-            if (elem.RightBotPoint.X < window.LeftTopPoint.X || window.RightBotPoint.X < elem.LeftTopPoint.X)
+            if (elem.RightTopPoint.X < window.LeftBotPoint.X || window.RightTopPoint.X < elem.LeftBotPoint.X)
                 return Visibility_X.Invisible;
-            if (window.LeftTopPoint.X < elem.LeftTopPoint.X && elem.RightBotPoint.X < window.RightBotPoint.X)
+            if (window.LeftBotPoint.X <= elem.RightTopPoint.X && elem.LeftBotPoint.X <= window.RightTopPoint.X)
                 return Visibility_X.Visible;
             return Visibility_X.Partially;
         }
 
         public static Visibility_Y IsVisibleByY(UIElement elem, Viewport window)
         {
-            if (elem.RightBotPoint.Y > window.LeftTopPoint.Y || window.RightBotPoint.Y > elem.LeftTopPoint.Y)
+            if (elem.RightTopPoint.Y < window.LeftBotPoint.Y || window.RightTopPoint.Y < elem.LeftBotPoint.Y)
                 return Visibility_Y.Invisible;
-            if (window.LeftTopPoint.Y > elem.LeftTopPoint.Y && elem.RightBotPoint.Y > window.RightBotPoint.Y)
+            if (window.LeftBotPoint.Y <= elem.RightTopPoint.Y && elem.LeftBotPoint.Y <= window.RightTopPoint.Y)
                 return Visibility_Y.Visible;
             return Visibility_Y.Partially;
         }
