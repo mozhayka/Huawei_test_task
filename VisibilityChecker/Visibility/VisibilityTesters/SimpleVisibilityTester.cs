@@ -44,7 +44,7 @@ namespace VisibilityChecker
 
             if (visibility == Visibility_.Partially)
             {
-                foreach (var element in elem.GetSubelements())
+                foreach (var element in elem.Subelements)
                 {
                     RecurentVisibilityTest(element);
                 }

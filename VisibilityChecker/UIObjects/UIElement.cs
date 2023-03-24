@@ -31,15 +31,6 @@ namespace VisibilityChecker
             Subelements.Add(sub);
         }
 
-        public void RemoveSubelement(int place)
-        {
-            Subelements.RemoveAt(place);
-        }
-
-        public List<UIElement> GetSubelements()
-        {
-            return Subelements;
-        }
         public override string ToString()
         {
             StringBuilder sb = new($"[({Left}, {Bottom}), ({Right}, {Top})] id {Id}, subelements: ");

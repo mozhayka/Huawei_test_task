@@ -54,7 +54,7 @@ namespace ConsoleVisibilityChecker
         private static void PrintWithSubelements(UIElement elem, StringBuilder sb)
         {
             sb.Append($"{elem.Id} (");
-            foreach (var element in elem.GetSubelements())
+            foreach (var element in elem.Subelements)
             {
                 PrintWithSubelements(element, sb);
             }

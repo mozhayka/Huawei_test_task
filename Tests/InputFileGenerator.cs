@@ -14,9 +14,9 @@ namespace Tests
         int partialSubelements = 900;
         int visibleSubelements = 50;
 
-        public void GenerateLargeFile(string path, string name, int n)
+        public void GenerateLargeFile(string path, int n)
         {
-            using FileStream fs = new (path + name, FileMode.Create);
+            using FileStream fs = new (path, FileMode.Create);
             using StreamWriter w = new (fs, Encoding.Default);
             string viewport = "0 0 100 100";
             this.n = n;
@@ -88,11 +88,11 @@ namespace Tests
             Visible.Add(8 * n + partialSubelements + 1);
 
             return new VisibilityResult()
-                {
-                    VisibleIds = Visible,
-                    PartiallyIds = Partial,
-                    InvisibleIds = Invisible,
-                };
+            {
+                VisibleIds = Visible,
+                PartiallyIds = Partial,
+                InvisibleIds = Invisible,
+            };
         }
     }
 }
