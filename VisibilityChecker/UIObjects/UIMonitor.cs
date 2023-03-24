@@ -14,11 +14,7 @@ namespace VisibilityChecker
         public Viewport Window { get; private set; }
 
         public UIMonitor()
-        {
-            // ParentElements = new();
-            // AllElements = new();
-            // ReadInitFile(path);
-        }
+        { }
 
         public void LoadInputFile(string path)
         {

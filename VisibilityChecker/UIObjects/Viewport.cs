@@ -10,18 +10,7 @@ namespace VisibilityChecker
     {
         public double Left, Right, Bottom, Top;
 
-        //public Viewport(Point leftBotPoint, Point rightTopPoint)
-        //{
-        //    LeftBotPoint = leftBotPoint;
-        //    RightTopPoint = rightTopPoint;
-        //}
-
-        //public Viewport(Point leftBotPoint, double width, double height)
-        //    : this(leftBotPoint, new Point { X = leftBotPoint.X + width, Y = leftBotPoint.Y + height })
-        //{ }
-
         public Viewport(double leftBotPointX, double leftBotPointY, double width, double height)
-            //: this(new Point { X = leftBotPointX, Y = leftBotPointY }, width, height)
         {
             Left = leftBotPointX;
             Bottom = leftBotPointY;

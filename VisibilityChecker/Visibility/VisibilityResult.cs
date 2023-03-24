@@ -14,9 +14,6 @@ namespace VisibilityChecker
 
         public VisibilityResult()
         {
-            //VisibleIds = new();
-            //PartiallyIds = new();
-            //InvisibleIds = new();
         }
 
         internal void Clear()
