@@ -19,7 +19,7 @@ namespace ConsoleVisibilityChecker
             Console.WriteLine("Reading input file ...");
             UIMonitor monitor = new(path);
             ConsolePrinter.PrintMonitorElements(monitor);
-            IVisibilityTester vt = new SimpleVisibilityTester(monitor);
+            IVisibilityTester vt = new OptimizedVisibilityTester(monitor); // new SimpleVisibilityTester(monitor);
 
             Console.WriteLine("Print commands");
             while (true)
@@ -33,6 +33,11 @@ namespace ConsoleVisibilityChecker
         private static bool CommandParser(UIMonitor monitor, IVisibilityTester vt)
         {
             var command = Console.ReadLine();
+            if (command == null)
+            {
+                Console.WriteLine("Unknown command (null), write help to see implemented commands");
+                return true;
+            }
             var args = command.Split(' ').ToArray();
             switch (args[0])
             {
@@ -45,10 +50,10 @@ namespace ConsoleVisibilityChecker
                     ConsolePrinter.PrintVisibleFull(vt.VisibilityTest(), monitor.AllElements);
                     break;
                 case "hor":
-                    vt.ScrollHorizontally(double.Parse(args[1]));
+                    TryScrollHorizontally(args, vt);
                     break;
                 case "ver":
-                    vt.ScrollVertically(double.Parse(args[1]));
+                    TryScrollVertically(args, vt);
                     break;
                 case "m":
                     ConsolePrinter.PrintMonitorElements(monitor);
@@ -61,6 +66,32 @@ namespace ConsoleVisibilityChecker
                     break;
             }
             return true;
+        }
+
+        private static void TryScrollHorizontally(string[] args, IVisibilityTester vt)
+        {
+            try
+            {
+                var x = double.Parse(args[1]);
+                vt.ScrollHorizontally(x);
+            }
+            catch
+            {
+                Console.WriteLine("Wrong arguments (use , in 1,5)");
+            }
+        }
+
+        private static void TryScrollVertically(string[] args, IVisibilityTester vt)
+        {
+            try
+            {
+                var x = double.Parse(args[1]);
+                vt.ScrollVertically(x);
+            }
+            catch
+            {
+                Console.WriteLine("Wrong arguments (use , in 1,5)");
+            }
         }
     }
 }
