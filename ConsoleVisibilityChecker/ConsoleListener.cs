@@ -14,7 +14,7 @@ namespace ConsoleVisibilityChecker
             Console.WriteLine("Print input filename (or press enter to start with TestInput1.txt)");
             var path = Console.ReadLine();
             if (path == "" || path == null)
-                path = "C:\\Users\\mozha\\HOMEWORK\\8sem\\Huawei\\TestTask\\Input\\TestInput1.txt";
+                path = "..\\..\\..\\..\\Input\\TestInput1.txt";
 
             Console.WriteLine("Reading input file ...");
             UIMonitor monitor = new(path);
