@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using VisibilityChecker;
@@ -9,23 +10,23 @@ namespace Tests
 {
     internal class InputFileGenerator
     {
-        static int n = 10000;
-        static int partialSubelements = 900;
-        static int visibleSubelements = 50;
+        int n = 100000;
+        int partialSubelements = 900;
+        int visibleSubelements = 50;
 
-        public static void GenerateLargeFile(string path, string name)
+        public void GenerateLargeFile(string path, string name, int n)
         {
             using FileStream fs = new (path + name, FileMode.Create);
             using StreamWriter w = new (fs, Encoding.Default);
             string viewport = "0 0 100 100";
+            this.n = n;
 
             var currentIdx = AddSimpleElements(w);
             currentIdx = AddWithSubelements(w, currentIdx);
             w.WriteLine(viewport);
-
         }
 
-        private static int AddSimpleElements(StreamWriter w)
+        private int AddSimpleElements(StreamWriter w)
         {
             string invisible1 = "-1 -2 -2 1 1";
             string invisible2 = "-1 102 10 10 10";
@@ -58,7 +59,7 @@ namespace Tests
             return 8 * n;
         }
 
-        private static int AddWithSubelements(StreamWriter w, int currentIdx)
+        private int AddWithSubelements(StreamWriter w, int currentIdx)
         {
             int prev = currentIdx;
             w.WriteLine("-1 50 50 2000 2000");
@@ -77,7 +78,7 @@ namespace Tests
             return prev + 2;
         }
 
-        public static VisibilityResult RightAnswer()
+        public VisibilityResult GenerateRightAnswer(int n)
         {
             List<int> Visible = Enumerable.Range(5 * n, 3 * n).ToList();
             List<int> Partial = Enumerable.Range(2 * n, 3 * n).ToList();

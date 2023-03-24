@@ -30,10 +30,10 @@ namespace Tests
         public async Task TestLarge()
         {
             string name = "Large.txt";
-            //if (!File.Exists(path + name))
-            InputFileGenerator.GenerateLargeFile(path, name);
-
-            await TestRunner.TestOnInputFile(path + name, InputFileGenerator.RightAnswer());
+            int n = 100000;
+            CreateLargeFileIfNotExists(name, n);
+            await TestRunner.TestOnInputFile(path + name, 
+                new InputFileGenerator().GenerateRightAnswer(n));
         }
 
         [Test]
@@ -54,10 +54,18 @@ namespace Tests
         public async Task TestSimpleLarge()
         {
             string name = "Large.txt";
-            //if (!File.Exists(path + name))
-            InputFileGenerator.GenerateLargeFile(path, name);
+            int n = 100000;
+            CreateLargeFileIfNotExists(name, n);
+            await TestRunner.TestSimpleOnInputFile(path + name, 
+                new InputFileGenerator().GenerateRightAnswer(n));
+        }
 
-            await TestRunner.TestSimpleOnInputFile(path + name, InputFileGenerator.RightAnswer());
+        private string CreateLargeFileIfNotExists(string name, int n)
+        {
+            string newName = $"{name}_{n}.txt";
+            if (!File.Exists(path + newName))
+                new InputFileGenerator().GenerateLargeFile(path, newName, n);
+            return newName;
         }
     }
 }
