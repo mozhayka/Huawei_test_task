@@ -71,7 +71,7 @@ namespace VisibilityChecker
 
         private void RecalculateVisibilityByX()
         {
-            ParallelLoopResult result = Parallel.ForEach(
+            Parallel.ForEach(
                    Monitor.RootElements,
                    elem => RecurentVisibilityByX(elem)
             );
@@ -83,7 +83,7 @@ namespace VisibilityChecker
             CurrentVisibilityByX[elem.Id] = visibility;
             if (visibility == Visibility_X.Partially)
             {
-                ParallelLoopResult result = Parallel.ForEach(
+                Parallel.ForEach(
                    elem.Subelements,
                    elem => RecurentVisibilityByX(elem)
                 );
@@ -92,10 +92,10 @@ namespace VisibilityChecker
 
         private void RecalculateVisibilityByY()
         {
-            foreach (var elem in Monitor.RootElements)
-            {
-                RecurentVisibilityByY(elem);
-            }
+            Parallel.ForEach(
+                   Monitor.RootElements,
+                   elem => RecurentVisibilityByY(elem)
+            );
         }
 
         private void RecurentVisibilityByY(UIElement elem)
@@ -104,10 +104,10 @@ namespace VisibilityChecker
             CurrentVisibilityByY[elem.Id] = visibility;
             if (visibility == Visibility_Y.Partially)
             {
-                foreach (var element in elem.GetSubelements())
-                {
-                    RecurentVisibilityByY(element);
-                }
+                Parallel.ForEach(
+                   elem.Subelements,
+                   elem => RecurentVisibilityByY(elem)
+                );
             }
         }
 
