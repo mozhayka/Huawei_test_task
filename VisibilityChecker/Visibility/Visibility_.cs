@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestTask
+namespace VisibilityChecker
 {
     enum Visibility_X
     {
@@ -20,7 +20,7 @@ namespace TestTask
         Invisible,
     }
 
-    enum Visibility
+    enum Visibility_
     {
         Visible,
         Partially,
@@ -29,13 +29,13 @@ namespace TestTask
 
     static class VisibilityMerger
     {
-        static public Visibility MergeVisibility(Visibility_X x, Visibility_Y y)
+        static public Visibility_ MergeVisibility(Visibility_X x, Visibility_Y y)
         {
             if (x == Visibility_X.Visible && y == Visibility_Y.Visible)
-                return Visibility.Visible;
+                return Visibility_.Visible;
             if (x == Visibility_X.Invisible || y == Visibility_Y.Invisible)
-                return Visibility.Invisible;
-            return Visibility.Partially;
+                return Visibility_.Invisible;
+            return Visibility_.Partially;
         }
     }
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestTask
+namespace VisibilityChecker
 {
-    internal class Viewport
+    public class Viewport
     {
         public Point LeftTopPoint { get; private set; }
         public Point RightBotPoint { get; private set; }
@@ -35,6 +35,12 @@ namespace TestTask
         {
             LeftTopPoint.Y -= distanceToTheBot;
             RightBotPoint.Y -= distanceToTheBot;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new($"Viewport [{LeftTopPoint}, {RightBotPoint}]");
+            return sb.ToString();
         }
     }
 }

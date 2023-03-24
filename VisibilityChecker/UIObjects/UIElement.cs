@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace TestTask
+namespace VisibilityChecker
 {
-    internal class UIElement
+    public class UIElement
     {
         private readonly List<UIElement> Subelements;
         public Point LeftTopPoint { get; private set; }
@@ -31,6 +32,10 @@ namespace TestTask
 
         public void AddSubelement(UIElement sub)
         {
+            if (!IsInside(sub))
+            {
+                throw new InvalidOperationException("subelements is not inside parent");
+            }
             Subelements.Add(sub);
         }
 
@@ -43,40 +48,21 @@ namespace TestTask
         {
             return Subelements;
         }
-
-        public Visibility_X IsVisibleByX(double leftPoint, double rightPoint)
+        public override string ToString()
         {
-            if (RightBotPoint.X < leftPoint || rightPoint < LeftTopPoint.X)
-                return Visibility_X.Invisible;
-            if (leftPoint < LeftTopPoint.X  && RightBotPoint.X < rightPoint)
-                return Visibility_X.Visible;
-            return Visibility_X.Partially;
+            StringBuilder sb = new($"[{LeftTopPoint}, {RightBotPoint}] id {Id}, subelements ");
+            Subelements.ForEach(p => sb.Append($"{p.Id} "));
+            return sb.ToString();
         }
 
-        public Visibility_X IsVisibleByX(Point topLeft, Point botRight)
+        public bool IsInside(UIElement sub)
         {
-            return IsVisibleByX(topLeft.X, botRight.X);
+            return IsInside(this, sub);
         }
 
-        public Visibility_Y IsVisibleByY(double topPoint, double botPoint)
+        public static bool IsInside(UIElement parent, UIElement sub)
         {
-            if (RightBotPoint.Y > topPoint || botPoint > LeftTopPoint.Y)
-                return Visibility_Y.Invisible;
-            if (topPoint > LeftTopPoint.Y && RightBotPoint.Y > botPoint)
-                return Visibility_Y.Visible;
-            return Visibility_Y.Partially;
-        }
-
-        public Visibility_Y IsVisibleByY(Point topLeft, Point botRight)
-        {
-            return IsVisibleByY(topLeft.Y, botRight.Y);
-        }
-
-        public Visibility IsVisible(Point topLeft, Point botRight)
-        {
-            var x_visibility = IsVisibleByX(topLeft, botRight);
-            var y_visibility = IsVisibleByY(topLeft, botRight);
-            return VisibilityMerger.MergeVisibility(x_visibility, y_visibility);
+            return parent.LeftTopPoint >= sub.LeftTopPoint && sub.RightBotPoint >= parent.RightBotPoint;
         }
     }
 }

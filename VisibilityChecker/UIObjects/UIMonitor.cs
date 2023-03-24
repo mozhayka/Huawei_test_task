@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace TestTask
+namespace VisibilityChecker
 {
-    internal class UIMonitor
+    public class UIMonitor
     {
         public List<UIElement> ParentElements { get; }
         public List<UIElement> AllElements { get; }
@@ -58,14 +58,23 @@ namespace TestTask
             Window = new Viewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
         }
 
-        public void ScrollHorizontally(double distanceToTheRight)
+        internal void ScrollHorizontally(double distanceToTheRight)
         {
             Window.ScrollHorizontally(distanceToTheRight);
         }
-         
-        public void ScrollVertically(double distanceToTheBot)
+
+        internal void ScrollVertically(double distanceToTheBot)
         {
             Window.ScrollVertically(distanceToTheBot);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("UI elements");
+            AllElements.ForEach(p => sb.AppendLine(p.ToString()));
+            sb.AppendLine(Window.ToString());
+            return sb.ToString();
         }
     }
 }
