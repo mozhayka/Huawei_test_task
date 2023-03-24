@@ -9,7 +9,7 @@ namespace Tests
 {
     internal class InputFileGenerator
     {
-        static int n = 1000;
+        static int n = 10000;
         static int partialSubelements = 900;
         static int visibleSubelements = 50;
 
@@ -84,7 +84,7 @@ namespace Tests
             List<int> Invisible = Enumerable.Range(0, 2 * n).ToList();
 
             Partial.AddRange(Enumerable.Range(8 * n, partialSubelements + 1));
-            Visible.AddRange(Enumerable.Range(8 * n + partialSubelements + 1, visibleSubelements));
+            Visible.Add(8 * n + partialSubelements + 1);
 
             return new VisibilityResult()
                 {

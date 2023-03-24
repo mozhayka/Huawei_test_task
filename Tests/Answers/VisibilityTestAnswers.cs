@@ -23,11 +23,11 @@ namespace Tests.Answers
             InvisibleIds = new List<int>() { 0 },
         };
 
-        public static void CompareAnswers(VisibilityResult calculated, VisibilityResult correct)
+        public static void CompareAnswers(VisibilityResult expected, VisibilityResult actual)
         {
-            CollectionAssert.AreEqual(calculated.VisibleIds, correct.VisibleIds);
-            CollectionAssert.AreEqual(calculated.PartiallyIds, correct.PartiallyIds);
-            CollectionAssert.AreEqual(calculated.InvisibleIds,correct.InvisibleIds);
+            CollectionAssert.AreEqual(expected.VisibleIds, actual.VisibleIds);
+            CollectionAssert.AreEqual(expected.PartiallyIds, actual.PartiallyIds);
+            CollectionAssert.AreEqual(expected.InvisibleIds, actual.InvisibleIds);
         }
     }
 }
