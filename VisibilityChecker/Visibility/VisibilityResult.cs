@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace VisibilityChecker
 {
-    public class VisibilityTestShortAnswer
+    public class VisibilityResult
     {
         public List<int> VisibleIds { get; set; }
         public List<int> PartiallyIds { get; set; }
         public List<int> InvisibleIds { get; set; }
 
-        public VisibilityTestShortAnswer()
+        public VisibilityResult()
         {
             VisibleIds = new();
             PartiallyIds = new();

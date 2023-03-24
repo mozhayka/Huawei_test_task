@@ -43,11 +43,11 @@ namespace ConsoleVisibilityChecker
                     case "e":
                         return;
                     case "v":
-                        var x = await vt.VisibilityTestAsync();
+                        var x = await vt.TestVisibilityAsync();
                         ConsolePrinter.PrintVisibleShort(x);
                         break;
                     case "fv":
-                        ConsolePrinter.PrintVisibleFull(await vt.VisibilityTestAsync(), monitor.AllElements);
+                        ConsolePrinter.PrintVisibleFull(await vt.TestVisibilityAsync(), monitor.AllElements);
                         break;
                     case "hor":
                         TryScrollHorizontally(args, vt);

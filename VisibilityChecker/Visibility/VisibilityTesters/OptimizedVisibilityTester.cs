@@ -9,7 +9,7 @@ namespace VisibilityChecker
     public class OptimizedVisibilityTester : IVisibilityTester
     {
         private readonly UIMonitor Monitor;
-        private readonly VisibilityTestShortAnswer CurrentAnswer;
+        private readonly VisibilityResult CurrentAnswer;
         private readonly List<Visibility_X> CurrentVisibilityByX;
         private readonly List<Visibility_Y> CurrentVisibilityByY;
         private readonly List<Visibility_> CurrentMergetVisibility;
@@ -18,7 +18,7 @@ namespace VisibilityChecker
         public OptimizedVisibilityTester(UIMonitor monitor)
         {
             Monitor = monitor;
-            CurrentAnswer = new VisibilityTestShortAnswer();
+            CurrentAnswer = new VisibilityResult();
             int length = Monitor.AllElements.Count;
             CurrentVisibilityByX = new(Enumerable.Repeat(Visibility_X.Partially, length).ToArray());
             CurrentVisibilityByY = new(Enumerable.Repeat(Visibility_Y.Partially, length).ToArray());
@@ -39,7 +39,7 @@ namespace VisibilityChecker
             Monitor.ScrollVertically(distanceToTheBot);
         }
 
-        public async Task<VisibilityTestShortAnswer> VisibilityTestAsync()
+        public async Task<VisibilityResult> TestVisibilityAsync()
         {
             if (!UpdatedSinceLastCalculationByX && !UpdatedSinceLastCalculationByY)
                 return CurrentAnswer;

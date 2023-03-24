@@ -9,12 +9,12 @@ namespace VisibilityChecker
     public class SimpleVisibilityTester : IVisibilityTester
     {
         private UIMonitor Monitor;
-        private VisibilityTestShortAnswer CurrentAnswer;
+        private VisibilityResult CurrentAnswer;
 
         public SimpleVisibilityTester(UIMonitor monitor)
         {
             Monitor = monitor;
-            CurrentAnswer = new VisibilityTestShortAnswer();
+            CurrentAnswer = new VisibilityResult();
         }
 
         public void ScrollHorizontally(double distanceToTheRight)
@@ -27,7 +27,7 @@ namespace VisibilityChecker
             Monitor.ScrollVertically(distanceToTheBot);
         }
 
-        public Task<VisibilityTestShortAnswer> VisibilityTestAsync()
+        public Task<VisibilityResult> TestVisibilityAsync()
         {
             CurrentAnswer.Clear();
             foreach (var elem in Monitor.ParentElements)

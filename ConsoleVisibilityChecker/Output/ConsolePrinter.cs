@@ -9,7 +9,7 @@ namespace ConsoleVisibilityChecker
 {
     internal class ConsolePrinter
     {
-        public static void PrintVisibleShort(VisibilityTestShortAnswer ans)
+        public static void PrintVisibleShort(VisibilityResult ans)
         {
             StringBuilder sb = new();
             sb.AppendLine("Visible UI elements: ");
@@ -33,7 +33,7 @@ namespace ConsoleVisibilityChecker
             Console.WriteLine(sb.ToString());
         }
 
-        public static void PrintVisibleFull(VisibilityTestShortAnswer ans, List<UIElement> allElements)
+        public static void PrintVisibleFull(VisibilityResult ans, List<UIElement> allElements)
         {
             StringBuilder sb = new();
             sb.AppendLine("Visible UI elements: ");
