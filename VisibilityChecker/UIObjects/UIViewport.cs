@@ -6,17 +6,11 @@ using System.Threading.Tasks;
 
 namespace VisibilityChecker
 {
-    public class Viewport
+    public class UIViewport : UIRectangle
     {
-        public double Left, Right, Bottom, Top;
-
-        public Viewport(double leftBotPointX, double leftBotPointY, double width, double height)
-        {
-            Left = leftBotPointX;
-            Bottom = leftBotPointY;
-            Right = Left + width;
-            Top = Bottom + height;
-        }
+        public UIViewport(double leftBotPointX, double leftBotPointY, double width, double height)
+            : base(leftBotPointX, leftBotPointX + width, leftBotPointY + height, leftBotPointY)
+        { }
 
         public void ScrollHorizontally(double distanceToTheRight)
         {

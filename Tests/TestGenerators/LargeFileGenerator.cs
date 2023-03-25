@@ -41,7 +41,7 @@ namespace Tests
             return path + newName;
         }
 
-        public void GenerateLargeFile(string path, int n)
+        private void GenerateLargeFile(string path, int n)
         {
             using FileStream fs = new(path, FileMode.Create);
             using StreamWriter w = new(fs, Encoding.Default);

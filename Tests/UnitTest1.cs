@@ -6,7 +6,8 @@ namespace Tests
 {
     public class Tests
     {
-        const string path = "..\\..\\..\\..\\Tests\\TestInput\\";
+        private const string PathToDirectory = "..\\..\\..\\..\\Tests\\TestInput\\";
+
         [SetUp]
         public void Setup()
         {
@@ -16,23 +17,22 @@ namespace Tests
         public void TestSimple1()
         {
             string name = "TextFile1.txt";
-            TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer);
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test1Answer);
         }
 
         [Test]
         public void TestSimple2()
         {
             string name = "TextFile2.txt";
-            TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer);
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test2Answer);
         }
 
         [Test]
         public void TestLarge()
         {
-            string name = "Large";
             int n = 100000;
-            string newName = LargeFileGenerator.CreateLargeFileIfNotExists(path, name, n);
-            TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n));
+            string fullPath = LargeFileGenerator.CreateLargeFileIfNotExists(PathToDirectory, "Large", n);
+            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n));
         }
     }
 }

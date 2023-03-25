@@ -18,7 +18,7 @@ namespace Tests
             var sw = Stopwatch.StartNew();
             var ans = monitor.TestVisibility();
             sw.Stop();
-            Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}");
+            Console.WriteLine($"Time spent on visibility check: {sw.ElapsedMilliseconds}");
             VisibilityTestAnswers.CompareAnswers(rightAnswer, ans);
         }
     }

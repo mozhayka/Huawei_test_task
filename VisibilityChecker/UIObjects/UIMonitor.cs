@@ -11,8 +11,8 @@ namespace VisibilityChecker
     {
         public List<UIElement> RootElements { get; } = new();
         public List<UIElement> AllElements { get; } = new();
-        public Viewport Window { get; private set; }
-        private VisibilityResult LastVisibilityResult = new();
+        public UIViewport? Viewport { get; private set; }
+        private readonly VisibilityResult LastVisibilityResult = new();
 
         public UIMonitor()
         { }
@@ -31,16 +31,18 @@ namespace VisibilityChecker
 
         public void ScrollHorizontally(double distanceToTheRight)
         {
-            Window.ScrollHorizontally(distanceToTheRight);
+            Viewport?.ScrollHorizontally(distanceToTheRight);
         }
 
         public void ScrollVertically(double distanceToTheBot)
         {
-            Window.ScrollVertically(distanceToTheBot);
+            Viewport?.ScrollVertically(distanceToTheBot);
         }
 
         public VisibilityResult TestVisibility()
         {
+            if (Viewport == null)
+                throw new Exception("Viewport is not initialized, call LoadInputFile()");
             LastVisibilityResult.Clear();
             foreach (var elem in RootElements)
             {
@@ -54,7 +56,7 @@ namespace VisibilityChecker
             StringBuilder sb = new();
             sb.AppendLine("UI elements");
             AllElements.ForEach(p => sb.AppendLine(p.ToString()));
-            sb.AppendLine(Window.ToString());
+            sb.AppendLine(Viewport?.ToString());
             return sb.ToString();
         }
 
@@ -80,12 +82,12 @@ namespace VisibilityChecker
         {
             var args = s.Split(' ');
             double[] coordinates = args.Select(x => double.Parse(x)).ToArray();
-            Window = new Viewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+            Viewport = new UIViewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
         }
 
         private void RecurentVisibilityTest(UIElement elem)
         {
-            var visibility = ElementVisibility.IsVisible(elem, Window);
+            var visibility = ElementVisibility.IsVisible(elem, Viewport);
             LastVisibilityResult.Add(elem.Id, visibility);
 
             if (visibility == Visibility_.Partially)

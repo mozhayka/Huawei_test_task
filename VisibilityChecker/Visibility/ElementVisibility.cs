@@ -8,7 +8,7 @@ namespace VisibilityChecker
 {
     internal class ElementVisibility
     {
-        public static Visibility_X IsVisibleByX(UIElement elem, Viewport window)
+        public static Visibility_X IsVisibleByX(UIElement elem, UIViewport window)
         {
             var intersectoin = Intersection.SegmentsIntersect(window.Left, window.Right, elem.Left, elem.Right);
             return intersectoin switch
@@ -20,7 +20,7 @@ namespace VisibilityChecker
             };
         }
 
-        public static Visibility_Y IsVisibleByY(UIElement elem, Viewport window)
+        public static Visibility_Y IsVisibleByY(UIElement elem, UIViewport window)
         {
             var intersectoin = Intersection.SegmentsIntersect(window.Bottom, window.Top, elem.Bottom, elem.Top);
             return intersectoin switch
@@ -32,7 +32,7 @@ namespace VisibilityChecker
             };
         }
 
-        public static Visibility_ IsVisible(UIElement elem, Viewport window)
+        public static Visibility_ IsVisible(UIElement elem, UIViewport window)
         {
             var x_visibility = IsVisibleByX(elem, window);
             var y_visibility = IsVisibleByY(elem, window);
