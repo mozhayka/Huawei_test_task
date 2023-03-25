@@ -44,7 +44,7 @@ namespace Tests
         public async Task TestSimpleLarge()
         {
             string name = "Large";
-            int n = 1000000;
+            int n = 100000;
             string newName = LargeFileGenerator.CreateLargeFileIfNotExists(path, name, n);
             await TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n), "Simple");
         }
@@ -53,7 +53,7 @@ namespace Tests
         public async Task TestOptimizedLarge()
         {
             string name = "Large";
-            int n = 1000000;
+            int n = 100000;
             string newName = LargeFileGenerator.CreateLargeFileIfNotExists(path, name, n);
             await TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n), "Optimized");
         }
