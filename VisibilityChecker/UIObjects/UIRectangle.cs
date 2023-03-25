@@ -21,16 +21,29 @@ namespace VisibilityChecker
             Bottom = bottom;
         }
 
-        public bool IsInside(UIRectangle sub)
+        internal bool IsInside(UIRectangle sub)
         {
             return IsInside(this, sub);
         }
 
-        public static bool IsInside(UIRectangle parent, UIRectangle sub)
+        internal static bool IsInside(UIRectangle parent, UIRectangle sub)
         {
-            var isInsideByX = Intersection.SegmentsIntersect(parent.Left, parent.Right, sub.Left, sub.Right) == Intersect.Inside;
-            var isInsideByY = Intersection.SegmentsIntersect(parent.Bottom, parent.Top, sub.Bottom, sub.Top) == Intersect.Inside;
-            return isInsideByX && isInsideByY;
+            return Intersect(parent, sub) == RectanglesIntersection.Inside;
+        }
+
+        internal static RectanglesIntersection Intersect(UIRectangle parent, UIRectangle sub)
+        {
+            return Intersection.MergeIntersections(HorizontalIntersect(parent, sub), VerticalIntersect(parent, sub));
+        }
+
+        internal static SegmentsIntersection HorizontalIntersect(UIRectangle parent, UIRectangle sub)
+        {
+            return Intersection.IntersectSegments(parent.Left, parent.Right, sub.Left, sub.Right);
+        }
+
+        internal static SegmentsIntersection VerticalIntersect(UIRectangle parent, UIRectangle sub)
+        {
+            return Intersection.IntersectSegments(parent.Bottom, parent.Top, sub.Bottom, sub.Top);
         }
     }
 }

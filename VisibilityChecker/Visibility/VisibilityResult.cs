@@ -23,17 +23,17 @@ namespace VisibilityChecker
             InvisibleIds.Clear();
         }
 
-        internal void Add(int Id, Visibility_ visibility)
+        internal void Add(int Id, RectanglesIntersection intersection)
         {
-            switch (visibility)
+            switch (intersection)
             {
-                case Visibility_.Partially:
-                    PartiallyIds.Add(Id);
-                    break;
-                case Visibility_.Visible:
+                case RectanglesIntersection.Inside:
                     VisibleIds.Add(Id);
                     break;
-                case Visibility_.Invisible:
+                case RectanglesIntersection.Intersect:
+                    PartiallyIds.Add(Id);
+                    break;
+                case RectanglesIntersection.Outside:
                     InvisibleIds.Add(Id);
                     break;
             }

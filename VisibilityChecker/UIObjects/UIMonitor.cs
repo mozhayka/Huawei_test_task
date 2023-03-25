@@ -87,10 +87,10 @@ namespace VisibilityChecker
 
         private void RecurentVisibilityTest(UIElement elem)
         {
-            var visibility = ElementVisibility.IsVisible(elem, Viewport);
+            var visibility = UIRectangle.Intersect(Viewport, elem);
             LastVisibilityResult.Add(elem.Id, visibility);
 
-            if (visibility == Visibility_.Partially)
+            if (visibility == RectanglesIntersection.Intersect)
             {
                 foreach (var element in elem.Subelements)
                 {
