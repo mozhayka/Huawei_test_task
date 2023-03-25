@@ -42,6 +42,34 @@ namespace Tests
         }
 
         [Test]
+        public void TestWithScrolling1_Simple()
+        {
+            string name = "TextFile2.txt";
+            TestRunner.TestWithScrolling(PathToDirectory + name, VisibilityTestAnswers.TestWithScrolling1Answer, "Simple");
+        }
+
+        [Test]
+        public void TestWithScrolling1_Concurrent()
+        {
+            string name = "TextFile2.txt";
+            TestRunner.TestWithScrolling(PathToDirectory + name, VisibilityTestAnswers.TestWithScrolling1Answer, "Concurrent");
+        }
+
+        [Test]
+        public void TestWithScrolling2_Simple()
+        {
+            string name = "TextFile2.txt";
+            TestRunner.TestWithScrolling2(PathToDirectory + name, VisibilityTestAnswers.TestWithScrolling2Answer, "Simple");
+        }
+
+        [Test]
+        public void TestWithScrolling2_Concurrent()
+        {
+            string name = "TextFile2.txt";
+            TestRunner.TestWithScrolling2(PathToDirectory + name, VisibilityTestAnswers.TestWithScrolling2Answer, "Concurrent");
+        }
+
+        [Test]
         public void TestLarge_Simple()
         {
             int n = 10000;
