@@ -41,7 +41,7 @@ namespace VisibilityChecker
             LastVisibilityResult.Clear();
             foreach (var elem in RootElements)
             {
-                RecurentTestVisibility(elem);
+                RecursiveTestVisibility(elem);
             }
             return LastVisibilityResult;
         }
@@ -52,7 +52,7 @@ namespace VisibilityChecker
                 throw new Exception("Viewport is not initialized, call LoadInputFile()");
             Parallel.ForEach (
                 RootElements,
-                elem => RecurentTestVisibilityConcurrent(elem)
+                elem => RecursiveTestVisibilityConcurrent(elem)
             );
         }
 
@@ -61,7 +61,7 @@ namespace VisibilityChecker
             LastVisibilityResult.Clear();
             foreach (var elem in RootElements)
             {
-                RecurentRecalculateVisibilityResult(elem);
+                RecursiveRecalculateVisibilityResult(elem);
             }
             return LastVisibilityResult;
         }
@@ -100,7 +100,7 @@ namespace VisibilityChecker
             Viewport = new UIViewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
         }
 
-        private void RecurentTestVisibility(UIElement elem)
+        private void RecursiveTestVisibility(UIElement elem)
         {
             if (Viewport == null)
                 throw new Exception("Viewport was not initialized");
@@ -112,12 +112,12 @@ namespace VisibilityChecker
             {
                 foreach (var element in elem.Subelements)
                 {
-                    RecurentTestVisibility(element);
+                    RecursiveTestVisibility(element);
                 }
             }
         }
 
-        private void RecurentTestVisibilityConcurrent(UIElement elem)
+        private void RecursiveTestVisibilityConcurrent(UIElement elem)
         {
             if (Viewport == null)
                 throw new Exception("Viewport was not initialized");
@@ -128,12 +128,12 @@ namespace VisibilityChecker
             {
                 foreach (var element in elem.Subelements)
                 {
-                    RecurentTestVisibilityConcurrent(element);
+                    RecursiveTestVisibilityConcurrent(element);
                 }
             }
         }
 
-        private void RecurentRecalculateVisibilityResult(UIElement elem)
+        private void RecursiveRecalculateVisibilityResult(UIElement elem)
         {
             if (elem.Visibility == null)
                 throw new Exception($"UIElement {elem.Id} visibility was not calculated");
@@ -143,7 +143,7 @@ namespace VisibilityChecker
             {
                 foreach (var element in elem.Subelements)
                 {
-                    RecurentRecalculateVisibilityResult(element);
+                    RecursiveRecalculateVisibilityResult(element);
                 }
             }
         }
