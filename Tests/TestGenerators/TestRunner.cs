@@ -11,14 +11,24 @@ namespace Tests
 {
     internal class TestRunner
     {
-        public static void TestOnInputFile(string path, VisibilityResult rightAnswer)
+        public static void TestOnInputFile(string path, VisibilityResult rightAnswer, string TestVisibilityType)
         {
             UIMonitor monitor = new();
             monitor.LoadInputFile(path);
-            var sw = Stopwatch.StartNew();
-            var ans = monitor.TestVisibility();
-            sw.Stop();
-            Console.WriteLine($"Time spent on visibility check: {sw.ElapsedMilliseconds}");
+            VisibilityResult ans;
+            switch (TestVisibilityType) 
+            {
+                case "Simple":
+                    ans = monitor.TestVisibility();
+                    break;
+                case "Concurrent":
+                    monitor.TestVisibilityConcurrent();
+                    ans = monitor.RecalculateVisibilityResult();
+                    break;
+                default:
+                    ans = monitor.RecalculateVisibilityResult();
+                    break;
+            };
             VisibilityTestAnswers.CompareAnswers(rightAnswer, ans);
         }
     }

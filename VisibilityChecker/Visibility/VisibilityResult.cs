@@ -38,5 +38,10 @@ namespace VisibilityChecker
                     break;
             }
         }
+
+        internal void Add(int Id, Visibility visibility)
+        {
+            Add(Id, IntersectionVisibilityConverter.FromVisibility(visibility));
+        }
     }
 }

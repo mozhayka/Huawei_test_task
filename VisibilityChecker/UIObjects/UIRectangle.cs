@@ -31,6 +31,11 @@ namespace VisibilityChecker
             return Intersect(parent, sub) == RectanglesIntersection.Inside;
         }
 
+        internal RectanglesIntersection Intersect(UIRectangle sub)
+        {
+            return Intersect(this, sub);
+        }
+
         internal static RectanglesIntersection Intersect(UIRectangle parent, UIRectangle sub)
         {
             return Intersection.MergeIntersections(HorizontalIntersect(parent, sub), VerticalIntersect(parent, sub));

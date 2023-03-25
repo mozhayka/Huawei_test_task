@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace VisibilityChecker
 {
@@ -12,7 +12,7 @@ namespace VisibilityChecker
         public List<UIElement> RootElements { get; } = new();
         public List<UIElement> AllElements { get; } = new();
         public UIViewport? Viewport { get; private set; }
-        private readonly VisibilityResult LastVisibilityResult = new();
+        public VisibilityResult LastVisibilityResult { get; private set; } = new();
 
         public UIMonitor()
         { }
@@ -46,7 +46,27 @@ namespace VisibilityChecker
             LastVisibilityResult.Clear();
             foreach (var elem in RootElements)
             {
-                RecurentVisibilityTest(elem);
+                RecurentTestVisibility(elem);
+            }
+            return LastVisibilityResult;
+        }
+
+        public void TestVisibilityConcurrent()
+        {
+            if (Viewport == null)
+                throw new Exception("Viewport is not initialized, call LoadInputFile()");
+            Parallel.ForEach (
+                RootElements,
+                elem => RecurentTestVisibilityConcurrent(elem)
+            );
+        }
+
+        public VisibilityResult RecalculateVisibilityResult()
+        {
+            LastVisibilityResult.Clear();
+            foreach (var elem in RootElements)
+            {
+                RecurentRecalculateVisibilityResult(elem);
             }
             return LastVisibilityResult;
         }
@@ -85,16 +105,50 @@ namespace VisibilityChecker
             Viewport = new UIViewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
         }
 
-        private void RecurentVisibilityTest(UIElement elem)
+        private void RecurentTestVisibility(UIElement elem)
         {
-            var visibility = UIRectangle.Intersect(Viewport, elem);
-            LastVisibilityResult.Add(elem.Id, visibility);
+            var intersection = Viewport.Intersect(elem);
+            LastVisibilityResult.Add(elem.Id, intersection);
+            elem.Visibility = IntersectionVisibilityConverter.FromIntersection(intersection);
 
-            if (visibility == RectanglesIntersection.Intersect)
+            if (intersection == RectanglesIntersection.Intersect)
             {
                 foreach (var element in elem.Subelements)
                 {
-                    RecurentVisibilityTest(element);
+                    RecurentTestVisibility(element);
+                }
+            }
+        }
+
+        private void RecurentTestVisibilityConcurrent(UIElement elem)
+        {
+            var intersection = Viewport.Intersect(elem);
+            elem.Visibility = IntersectionVisibilityConverter.FromIntersection(intersection);
+
+            if (intersection == RectanglesIntersection.Intersect)
+            {
+                //Parallel.ForEach(
+                //    RootElements,
+                //    elem => RecurentTestVisibilityConcurrent(elem)
+                //);
+                foreach (var element in elem.Subelements)
+                {
+                    RecurentTestVisibilityConcurrent(element);
+                }
+            }
+        }
+
+        private void RecurentRecalculateVisibilityResult(UIElement elem)
+        {
+            if (elem.Visibility == null)
+                throw new Exception($"UIElement {elem.Id} visibility was not calculated");
+            LastVisibilityResult.Add(elem.Id, (Visibility)elem.Visibility);
+
+            if (elem.Visibility == Visibility.Partially)
+            {
+                foreach (var element in elem.Subelements)
+                {
+                    RecurentRecalculateVisibilityResult(element);
                 }
             }
         }

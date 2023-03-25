@@ -11,9 +11,8 @@ namespace Tests
 {
     internal class LargeFileGenerator
     {
-        int n = 100000;
-        int partialSubelements = 900;
-        int visibleSubelements = 50;
+        const int partialSubelements = 900;
+        const int visibleSubelements = 50;
 
         public VisibilityResult GenerateRightAnswer(int n)
         {
@@ -46,14 +45,13 @@ namespace Tests
             using FileStream fs = new(path, FileMode.Create);
             using StreamWriter w = new(fs, Encoding.Default);
             string viewport = "0 0 100 100";
-            this.n = n;
 
-            var currentIdx = AddSimpleElements(w);
+            var currentIdx = AddSimpleElements(w, n);
             currentIdx = AddWithSubelements(w, currentIdx);
             w.WriteLine(viewport);
         }
 
-        private int AddSimpleElements(StreamWriter w)
+        private int AddSimpleElements(StreamWriter w, int n)
         {
             string invisible1 = "-1 -2 -2 1 1";
             string invisible2 = "-1 102 10 10 10";

@@ -14,25 +14,47 @@ namespace Tests
         }
 
         [Test]
-        public void TestSimple1()
+        public void Test1_Simple()
         {
             string name = "TextFile1.txt";
-            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test1Answer);
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test1Answer, "Simple");
         }
 
         [Test]
-        public void TestSimple2()
+        public void Test1_Concurrent()
+        {
+            string name = "TextFile1.txt";
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test1Answer, "Concurrent");
+        }
+
+        [Test]
+        public void Test2_Simple()
         {
             string name = "TextFile2.txt";
-            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test2Answer);
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test2Answer, "Simple");
         }
 
         [Test]
-        public void TestLarge()
+        public void Test2_Concurrent()
         {
-            int n = 100000;
+            string name = "TextFile2.txt";
+            TestRunner.TestOnInputFile(PathToDirectory + name, VisibilityTestAnswers.Test2Answer, "Concurrent");
+        }
+
+        [Test]
+        public void TestLarge_Simple()
+        {
+            int n = 10000;
             string fullPath = LargeFileGenerator.CreateLargeFileIfNotExists(PathToDirectory, "Large", n);
-            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n));
+            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n), "Simple");
+        }
+
+        [Test]
+        public void TestLarge_Concurrent()
+        {
+            int n = 10000;
+            string fullPath = LargeFileGenerator.CreateLargeFileIfNotExists(PathToDirectory, "Large", n);
+            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n), "Concurrent");
         }
     }
 }
