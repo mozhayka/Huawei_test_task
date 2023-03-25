@@ -14,7 +14,7 @@ namespace Tests
         const int partialSubelements = 900;
         const int visibleSubelements = 50;
 
-        public VisibilityResult GenerateRightAnswer(int n)
+        public static VisibilityResult GenerateRightAnswer(int n)
         {
             List<int> Visible = Enumerable.Range(5 * n, 3 * n).ToList();
             List<int> Partial = Enumerable.Range(2 * n, 3 * n).ToList();
@@ -36,11 +36,11 @@ namespace Tests
             string newName = $"{name}_{n}.txt";
             string newPath = Path.Combine(path, newName);
             if (!File.Exists(newPath))
-                new LargeFileGenerator().GenerateLargeFile(newPath, n);
+                GenerateLargeFile(newPath, n);
             return path + newName;
         }
 
-        private void GenerateLargeFile(string path, int n)
+        private static void GenerateLargeFile(string path, int n)
         {
             using FileStream fs = new(path, FileMode.Create);
             using StreamWriter w = new(fs, Encoding.Default);
@@ -51,7 +51,7 @@ namespace Tests
             w.WriteLine(viewport);
         }
 
-        private int AddSimpleElements(StreamWriter w, int n)
+        private static int AddSimpleElements(StreamWriter w, int n)
         {
             string invisible1 = "-1 -2 -2 1 1";
             string invisible2 = "-1 102 10 10 10";
@@ -84,7 +84,7 @@ namespace Tests
             return 8 * n;
         }
 
-        private int AddWithSubelements(StreamWriter w, int currentIdx)
+        private static int AddWithSubelements(StreamWriter w, int currentIdx)
         {
             int prev = currentIdx;
             w.WriteLine("-1 50 50 2000 2000");

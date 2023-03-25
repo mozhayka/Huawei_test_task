@@ -46,7 +46,7 @@ namespace Tests
         {
             int n = 10000;
             string fullPath = LargeFileGenerator.CreateLargeFileIfNotExists(PathToDirectory, "Large", n);
-            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n), "Simple");
+            TestRunner.TestOnInputFile(fullPath, LargeFileGenerator.GenerateRightAnswer(n), "Simple");
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Tests
         {
             int n = 10000;
             string fullPath = LargeFileGenerator.CreateLargeFileIfNotExists(PathToDirectory, "Large", n);
-            TestRunner.TestOnInputFile(fullPath, new LargeFileGenerator().GenerateRightAnswer(n), "Concurrent");
+            TestRunner.TestOnInputFile(fullPath, LargeFileGenerator.GenerateRightAnswer(n), "Concurrent");
         }
     }
 }

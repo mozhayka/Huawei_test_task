@@ -127,10 +127,6 @@ namespace VisibilityChecker
 
             if (intersection == RectanglesIntersection.Intersect)
             {
-                //Parallel.ForEach(
-                //    RootElements,
-                //    elem => RecurentTestVisibilityConcurrent(elem)
-                //);
                 foreach (var element in elem.Subelements)
                 {
                     RecurentTestVisibilityConcurrent(element);

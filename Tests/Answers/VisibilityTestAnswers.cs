@@ -25,10 +25,6 @@ namespace Tests.Answers
 
         public static void CompareAnswers(VisibilityResult expected, VisibilityResult actual)
         {
-            //CollectionAssert.AreEquivalent(expected.VisibleIds, actual.VisibleIds);
-            //CollectionAssert.AreEquivalent(expected.PartiallyIds, actual.PartiallyIds);
-            //CollectionAssert.AreEquivalent(expected.InvisibleIds, actual.InvisibleIds);
-
             CollectionAssert.AreEqual(expected.VisibleIds, actual.VisibleIds);
             CollectionAssert.AreEqual(expected.PartiallyIds, actual.PartiallyIds);
             CollectionAssert.AreEqual(expected.InvisibleIds, actual.InvisibleIds);
