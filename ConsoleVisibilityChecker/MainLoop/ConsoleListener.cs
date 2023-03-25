@@ -9,7 +9,7 @@ namespace ConsoleVisibilityChecker
 {
     public class ConsoleListener
     {
-        public static async Task Start()
+        public static void Start()
         {
             Console.WriteLine("Print input filename (or press enter to start with TestInput1.txt)");
             var path = Console.ReadLine();
@@ -20,15 +20,14 @@ namespace ConsoleVisibilityChecker
             UIMonitor monitor = new();
             monitor.LoadInputFile(path);
             ConsolePrinter.PrintMonitorElements(monitor);
-            IVisibilityTester vt = new OptimizedVisibilityTester(monitor); // new SimpleVisibilityTester(monitor);
 
             Console.WriteLine("Print commands");
-            await CommandParser(monitor, vt);
+            CommandParser(monitor);
 
             Console.WriteLine("Exited");
         }
 
-        private static async Task CommandParser(UIMonitor monitor, IVisibilityTester vt)
+        private static void CommandParser(UIMonitor monitor)
         {
             while (true)
             {
@@ -44,17 +43,16 @@ namespace ConsoleVisibilityChecker
                     case "e":
                         return;
                     case "v":
-                        var x = await vt.TestVisibilityAsync();
-                        ConsolePrinter.PrintVisibleShort(x);
+                        ConsolePrinter.PrintVisibleInShortForm(monitor.TestVisibility());
                         break;
                     case "fv":
-                        ConsolePrinter.PrintVisibleFull(await vt.TestVisibilityAsync(), monitor.AllElements);
+                        ConsolePrinter.PrintVisibleWithAllSubelements(monitor.TestVisibility(), monitor.AllElements);
                         break;
                     case "hor":
-                        TryScrollHorizontally(args, vt);
+                        TryScroll(args, monitor);
                         break;
                     case "ver":
-                        TryScrollVertically(args, vt);
+                        TryScroll(args, monitor);
                         break;
                     case "m":
                         ConsolePrinter.PrintMonitorElements(monitor);
@@ -69,25 +67,20 @@ namespace ConsoleVisibilityChecker
             }
         }
 
-        private static void TryScrollHorizontally(string[] args, IVisibilityTester vt)
+        private static void TryScroll(string[] args, UIMonitor monitor)
         {
             try
             {
                 var x = double.Parse(args[1]);
-                vt.ScrollHorizontally(x);
-            }
-            catch
-            {
-                Console.WriteLine("Wrong arguments (use , in 1,5)");
-            }
-        }
-
-        private static void TryScrollVertically(string[] args, IVisibilityTester vt)
-        {
-            try
-            {
-                var x = double.Parse(args[1]);
-                vt.ScrollVertically(x);
+                switch (args[0])
+                {
+                    case "hor":
+                        monitor.ScrollHorizontally(x);
+                        break;
+                    case "ver":
+                        monitor.ScrollVertically(x);
+                        break;
+                }
             }
             catch
             {

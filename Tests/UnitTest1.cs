@@ -13,49 +13,26 @@ namespace Tests
         }
 
         [Test]
-        public async Task TestSimple1()
+        public void TestSimple1()
         {
             string name = "TextFile1.txt";
-            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer, "Simple");
+            TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer);
         }
 
         [Test]
-        public async Task TestOptimized1()
-        {
-            string name = "TextFile1.txt";
-            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test1Answer, "Optimized");
-        }
-
-        [Test]
-        public async Task TestSimple2()
+        public void TestSimple2()
         {
             string name = "TextFile2.txt";
-            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer, "Simple");
+            TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer);
         }
 
         [Test]
-        public async Task TestOptimized2()
-        {
-            string name = "TextFile2.txt";
-            await TestRunner.TestOnInputFile(path + name, VisibilityTestAnswers.Test2Answer, "Optimized");
-        }
-
-        [Test]
-        public async Task TestSimpleLarge()
+        public void TestLarge()
         {
             string name = "Large";
             int n = 100000;
             string newName = LargeFileGenerator.CreateLargeFileIfNotExists(path, name, n);
-            await TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n), "Simple");
-        }
-
-        [Test]
-        public async Task TestOptimizedLarge()
-        {
-            string name = "Large";
-            int n = 100000;
-            string newName = LargeFileGenerator.CreateLargeFileIfNotExists(path, name, n);
-            await TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n), "Optimized");
+            TestRunner.TestOnInputFile(newName, new LargeFileGenerator().GenerateRightAnswer(n));
         }
     }
 }

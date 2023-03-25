@@ -12,6 +12,7 @@ namespace VisibilityChecker
         public List<UIElement> RootElements { get; } = new();
         public List<UIElement> AllElements { get; } = new();
         public Viewport Window { get; private set; }
+        private VisibilityResult LastVisibilityResult = new();
 
         public UIMonitor()
         { }
@@ -26,6 +27,35 @@ namespace VisibilityChecker
                 id++;
             }
             ParseViewport(lines[^1]);
+        }
+
+        public void ScrollHorizontally(double distanceToTheRight)
+        {
+            Window.ScrollHorizontally(distanceToTheRight);
+        }
+
+        public void ScrollVertically(double distanceToTheBot)
+        {
+            Window.ScrollVertically(distanceToTheBot);
+        }
+
+        public VisibilityResult TestVisibility()
+        {
+            LastVisibilityResult.Clear();
+            foreach (var elem in RootElements)
+            {
+                RecurentVisibilityTest(elem);
+            }
+            return LastVisibilityResult;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            sb.AppendLine("UI elements");
+            AllElements.ForEach(p => sb.AppendLine(p.ToString()));
+            sb.AppendLine(Window.ToString());
+            return sb.ToString();
         }
 
         private void ParseUIElement(string s, int id)
@@ -53,23 +83,18 @@ namespace VisibilityChecker
             Window = new Viewport(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
         }
 
-        internal void ScrollHorizontally(double distanceToTheRight)
+        private void RecurentVisibilityTest(UIElement elem)
         {
-            Window.ScrollHorizontally(distanceToTheRight);
-        }
+            var visibility = ElementVisibility.IsVisible(elem, Window);
+            LastVisibilityResult.Add(elem.Id, visibility);
 
-        internal void ScrollVertically(double distanceToTheBot)
-        {
-            Window.ScrollVertically(distanceToTheBot);
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new();
-            sb.AppendLine("UI elements");
-            AllElements.ForEach(p => sb.AppendLine(p.ToString()));
-            sb.AppendLine(Window.ToString());
-            return sb.ToString();
+            if (visibility == Visibility_.Partially)
+            {
+                foreach (var element in elem.Subelements)
+                {
+                    RecurentVisibilityTest(element);
+                }
+            }
         }
     }
 }

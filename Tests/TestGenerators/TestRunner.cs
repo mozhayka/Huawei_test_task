@@ -11,18 +11,12 @@ namespace Tests
 {
     internal class TestRunner
     {
-        public static async Task TestOnInputFile(string path, VisibilityResult rightAnswer, string VisibilityTester)
+        public static void TestOnInputFile(string path, VisibilityResult rightAnswer)
         {
             UIMonitor monitor = new();
             monitor.LoadInputFile(path);
-            IVisibilityTester vt = VisibilityTester switch
-            {
-                "Simple" => new SimpleVisibilityTester(monitor),
-                "Optimized" => new OptimizedVisibilityTester(monitor),
-                _ => new SimpleVisibilityTester(monitor),
-            };
             var sw = Stopwatch.StartNew();
-            var ans = await vt.TestVisibilityAsync();
+            var ans = monitor.TestVisibility();
             sw.Stop();
             Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}");
             VisibilityTestAnswers.CompareAnswers(rightAnswer, ans);

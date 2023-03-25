@@ -9,7 +9,7 @@ namespace ConsoleVisibilityChecker
 {
     internal class ConsolePrinter
     {
-        public static void PrintVisibleShort(VisibilityResult ans)
+        public static void PrintVisibleInShortForm(VisibilityResult ans)
         {
             StringBuilder sb = new();
             sb.AppendLine("Visible UI elements: ");
@@ -33,13 +33,13 @@ namespace ConsoleVisibilityChecker
             Console.WriteLine(sb.ToString());
         }
 
-        public static void PrintVisibleFull(VisibilityResult ans, List<UIElement> allElements)
+        public static void PrintVisibleWithAllSubelements(VisibilityResult ans, List<UIElement> allElements)
         {
             StringBuilder sb = new();
             sb.AppendLine("Visible UI elements: ");
             foreach (var elem in ans.VisibleIds)
             {
-                PrintWithSubelements(allElements[elem], sb);
+                PrintUIElementWithSubelements(allElements[elem], sb);
             }
             sb.AppendLine();
             sb.AppendLine("Partially visible UI elements: ");
@@ -49,16 +49,6 @@ namespace ConsoleVisibilityChecker
             }
             sb.AppendLine();
             Console.WriteLine(sb.ToString());
-        }
-
-        private static void PrintWithSubelements(UIElement elem, StringBuilder sb)
-        {
-            sb.Append($"{elem.Id} (");
-            foreach (var element in elem.Subelements)
-            {
-                PrintWithSubelements(element, sb);
-            }
-            sb.Append(") ");
         }
 
         public static void PrintMonitorElements(UIMonitor monitor)
@@ -78,6 +68,16 @@ namespace ConsoleVisibilityChecker
             sb.AppendLine("e - exit");
 
             Console.WriteLine(sb.ToString());
+        }        
+        
+        private static void PrintUIElementWithSubelements(UIElement elem, StringBuilder sb)
+        {
+            sb.Append($"{elem.Id} (");
+            foreach (var element in elem.Subelements)
+            {
+                PrintUIElementWithSubelements(element, sb);
+            }
+            sb.Append(") ");
         }
     }
 }
