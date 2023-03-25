@@ -1,6 +1,4 @@
-using System.Globalization;
 using Tests.Answers;
-using VisibilityChecker;
 
 namespace Tests
 {

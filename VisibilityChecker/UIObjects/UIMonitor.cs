@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualBasic;
+﻿using System.Text;
 
 namespace VisibilityChecker
 {
@@ -34,9 +29,9 @@ namespace VisibilityChecker
             Viewport?.ScrollHorizontally(distanceToTheRight);
         }
 
-        public void ScrollVertically(double distanceToTheBot)
+        public void ScrollVertically(double distanceToTheTop)
         {
-            Viewport?.ScrollVertically(distanceToTheBot);
+            Viewport?.ScrollVertically(distanceToTheTop);
         }
 
         public VisibilityResult TestVisibility()
@@ -107,6 +102,8 @@ namespace VisibilityChecker
 
         private void RecurentTestVisibility(UIElement elem)
         {
+            if (Viewport == null)
+                throw new Exception("Viewport was not initialized");
             var intersection = Viewport.Intersect(elem);
             LastVisibilityResult.Add(elem.Id, intersection);
             elem.Visibility = IntersectionVisibilityConverter.FromIntersection(intersection);
@@ -122,6 +119,8 @@ namespace VisibilityChecker
 
         private void RecurentTestVisibilityConcurrent(UIElement elem)
         {
+            if (Viewport == null)
+                throw new Exception("Viewport was not initialized");
             var intersection = Viewport.Intersect(elem);
             elem.Visibility = IntersectionVisibilityConverter.FromIntersection(intersection);
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Text;
 
 namespace VisibilityChecker
 {
@@ -14,8 +8,8 @@ namespace VisibilityChecker
         public Visibility? Visibility { get; internal set; }
         public int Id { get; protected set; }
         
-        public UIElement(double leftBotPointX, double leftBotPointY, double width, double height, int id)
-            : base(leftBotPointX, leftBotPointX + width, leftBotPointY + height, leftBotPointY)
+        public UIElement(double leftBottomPointX, double leftBotPointY, double width, double height, int id)
+            : base(leftBottomPointX, leftBottomPointX + width, leftBotPointY + height, leftBotPointY)
         {
             Id = id;
         }

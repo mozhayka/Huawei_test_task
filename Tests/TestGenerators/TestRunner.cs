@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tests.Answers;
+﻿using Tests.Answers;
 using VisibilityChecker;
 
 namespace Tests
@@ -74,7 +68,6 @@ namespace Tests
                     ans = monitor.RecalculateVisibilityResult();
                     break;
             };
-            Console.WriteLine(monitor.ToString());
             VisibilityTestAnswers.CompareAnswers(rightAnswer, ans);
         }
     }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using VisibilityChecker;
 
 namespace ConsoleVisibilityChecker
 {
-    public class ConsoleListener
+    public class ConsoleRunner
     {
         public static void Start()
         {
@@ -61,7 +57,7 @@ namespace ConsoleVisibilityChecker
                         ConsolePrinter.PrintHelp();
                         break;
                     default:
-                        Console.WriteLine("Unknown command, write help to see implemented commands");
+                        Console.WriteLine("Unknown command, type help to see implemented commands");
                         break;
                 }
             }
@@ -82,9 +78,9 @@ namespace ConsoleVisibilityChecker
                         break;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("Wrong arguments (use , in 1,5)");
+                Console.WriteLine(ex.Message);
             }
         }
     }
